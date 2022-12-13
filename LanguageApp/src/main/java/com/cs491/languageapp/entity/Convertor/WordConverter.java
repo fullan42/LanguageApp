@@ -16,9 +16,18 @@ public class WordConverter {
         CreateWordResponse convertWordResponse=new CreateWordResponse(word.getId(),word.getName(),word.getName(),word.getImg(),word.getLevel());
         return convertWordResponse;
     }
-    public List<WordResponse> convert(List<Word> word){
+    public List<WordResponse> convertWordResponse(List<Word> word){
 
         List<WordResponse> collect = word.stream().map(word1 -> new WordResponse(word1.getId(), word1.getName(), word1.getMean(), word1.getImg())).collect(Collectors.toList());
         return collect;
     }
+    public WordResponse convertWordResponse(Word word){
+        if (word ==null){
+            return null;
+        }
+        WordResponse wordResponse = new WordResponse(word.getId(), word.getName(),word.getMean(),word.getImg());
+        return wordResponse;
+    }
+
+
 }

@@ -7,5 +7,5 @@ import lombok.Data;
 public class CreateWordRequest {
     private String name;
     private String mean;
-    private Level level;
+    private String level;
 }

@@ -1,16 +1,18 @@
 package com.cs491.languageapp.service;
 
+import com.cs491.languageapp.entity.Convertor.LevelConverter;
 import com.cs491.languageapp.entity.Convertor.WordConverter;
-import com.cs491.languageapp.entity.Level;
 import com.cs491.languageapp.entity.Word;
 import com.cs491.languageapp.entity.request.CreateWordRequest;
+import com.cs491.languageapp.entity.request.GetByLevelRequest;
 import com.cs491.languageapp.entity.response.CreateWordResponse;
 import com.cs491.languageapp.entity.response.WordResponse;
 import com.cs491.languageapp.repostory.WordRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service // service oldugu belli olsun word servesi newliyor
@@ -19,6 +21,7 @@ public class WordService {
 
     private final WordRepository wordRepository;
     private final WordConverter wordConverter;
+    private final LevelConverter levelConverter;
     public List<Word> getAll(){ // get all methodu böyle yapılıyor
 
         return wordRepository.findAll();
@@ -27,47 +30,24 @@ public class WordService {
 
     public CreateWordResponse create(CreateWordRequest request){
 
-        Word word=new Word(request.getName(),request.getMean(),request.getLevel());
+        Word word=new Word(request.getName(),request.getMean(),levelConverter.convert(request.getLevel()));
 
         Word save = wordRepository.save(word);
         return wordConverter.convert(save);// dışarıdan cağırdığımız methodun içine userrepository.save alıp direkt database kaydedebiliyoruz
     }
-    public List<WordResponse> getByLevelA1(int number){
-        List<WordResponse> wordResponse = new ArrayList<>();
-        List<Word> byLevelA1 = wordRepository.findByLevel(Level.A1);
-        List<WordResponse> convert = wordConverter.convert(byLevelA1);
-        for(int i=0; i<number;i++){
-            wordResponse.add(convert.get(i));
-        }
-        return wordResponse;
+    public List<WordResponse> getByLevelPageable(GetByLevelRequest request){
+        Pageable pageable = PageRequest.of(request.getPage()-1, request.getSize());
+        List<Word> byLevelA1 = wordRepository.findByLevel(levelConverter.convert(request.getLevel()),pageable);//pageable olusturup kacıncı sayfayı gosterecegımızı ve bır sayfada kac kelıme gosterilecegini belırtıyoruz.
+        return wordConverter.convertWordResponse(byLevelA1);
     }
-    public List<WordResponse> getByLevelA2(int number){
-        List<WordResponse> wordResponse = null;
-        List<Word> byLevelA2 = wordRepository.findByLevel(Level.A2);
-        List<WordResponse> convert = wordConverter.convert(byLevelA2);
 
-        for(int i = 0; i<number; i++){
-            wordResponse.add(convert.get(i));
-        }
-        return wordResponse;
+    protected List<WordResponse> getByLevel(String level){
+        return wordConverter.convertWordResponse(wordRepository.findByLevel(levelConverter.convert(level)));
     }
-    public List<WordResponse> getByLevelB1(int number){
-        List<WordResponse> wordResponse = null;
-        List<Word> byLevelB1 = wordRepository.findByLevel(Level.B1);
-        List<WordResponse> convert = wordConverter.convert(byLevelB1);
-        for(int i=0; i<number;i++){
-            wordResponse.add(convert.get(i));
-        }
-        return wordResponse;
+
+    protected Word getById(int id){
+        return wordRepository.findById(id);
     }
-    public List<WordResponse> getByLevelB2(int number){
-        List<WordResponse> wordResponse = null;
-        List<Word> byLevelB2 = wordRepository.findByLevel(Level.B2);
-        List<WordResponse> convert = wordConverter.convert(byLevelB2);
-        for(int i=0; i<number;i++){
-            wordResponse.add(convert.get(i));
-        }
-        return wordResponse;
-    }
+
 
 }

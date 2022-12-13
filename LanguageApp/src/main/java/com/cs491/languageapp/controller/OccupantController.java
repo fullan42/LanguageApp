@@ -4,7 +4,6 @@ import com.cs491.languageapp.entity.request.CreateOccupantRequest;
 import com.cs491.languageapp.entity.response.CreateOccupantResponse;
 import com.cs491.languageapp.entity.response.OccupantResponse;
 import com.cs491.languageapp.service.OccupantService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

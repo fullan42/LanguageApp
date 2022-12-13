@@ -13,7 +13,7 @@ public class OccupantConverter {
 
         return new CreateOccupantResponse(occupant.getId(), occupant.getName(), occupant.getEmail());
     }
-    public OccupantResponse convertUserResponse(Occupant occupant){
+    public OccupantResponse convertOccupantResponse(Occupant occupant){
       return new OccupantResponse(occupant.getId(), occupant.getName(), occupant.getEmail());
     }
 

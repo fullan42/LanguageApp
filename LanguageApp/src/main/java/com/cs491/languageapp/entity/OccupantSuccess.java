@@ -26,7 +26,10 @@ public class OccupantSuccess {
     @JoinColumn
     private Occupant occupant;
 
-
-
-
+    public OccupantSuccess(boolean isTrue, LocalDateTime localDateTime, Word word, Occupant occupant) {
+        this.isTrue = isTrue;
+        this.localDateTime = localDateTime;
+        this.word = word;
+        this.occupant = occupant;
+    }
 }

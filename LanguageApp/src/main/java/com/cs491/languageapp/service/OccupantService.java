@@ -27,12 +27,14 @@ public class OccupantService {
     }
 
     public OccupantResponse getById(int id) {
-
-
         Occupant occupant = occupantRepository.findById(id);
-        OccupantResponse convert = occupantConverter.convertUserResponse(occupant);
+        OccupantResponse convert = occupantConverter.convertOccupantResponse(occupant);
 
         return convert;
+    }
+
+    protected Occupant findById(int id){
+        return occupantRepository.findById(id);
     }
 
 

@@ -2,10 +2,10 @@ package com.cs491.languageapp.controller;
 
 import com.cs491.languageapp.entity.Word;
 import com.cs491.languageapp.entity.request.CreateWordRequest;
+import com.cs491.languageapp.entity.request.GetByLevelRequest;
 import com.cs491.languageapp.entity.response.CreateWordResponse;
 import com.cs491.languageapp.entity.response.WordResponse;
 import com.cs491.languageapp.service.WordService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,20 +28,9 @@ public class WordController {
 
 
     }
-    @GetMapping("/getByLevelA1")
-    public ResponseEntity<List<WordResponse>> getByLevelA1(@RequestParam int number){
-        return new ResponseEntity<>(wordService.getByLevelA1(number),HttpStatus.OK);
+    @GetMapping("/getByLevel")
+    public ResponseEntity<List<WordResponse>> getByLevelPageable(@RequestBody GetByLevelRequest request){
+        return new ResponseEntity<>(wordService.getByLevelPageable(request),HttpStatus.OK);
     }
-    @GetMapping("/getByLevelA2")
-    public ResponseEntity<List<WordResponse>> getByLevelA2(@RequestParam int number){
-        return new ResponseEntity<>(wordService.getByLevelA2(number),HttpStatus.OK);
-    }
-    @GetMapping("/getByLevelB1")
-    public ResponseEntity<List<WordResponse>> getByLevelB1(@RequestParam int number){
-        return new ResponseEntity<>(wordService.getByLevelB1(number),HttpStatus.OK);
-    }
-    @GetMapping("/getByLevelB2")
-    public ResponseEntity<List<WordResponse>> getByLevelB2(int number){
-        return new ResponseEntity<>(wordService.getByLevelB2(number),HttpStatus.OK);
-    }
+
 }
